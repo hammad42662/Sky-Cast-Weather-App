@@ -1,10 +1,19 @@
 "use strict";
-const loadingScreen = document.getElementById("loading-screen");
+
+// Define a loading screen element by its ID
+const loadingScreen = document.querySelector("#loading-screen");
+
+// Show the loading screen
 loadingScreen.style.display = "";
+
+// Hide the loading screen after 4 seconds (4000 milliseconds)
 setTimeout(() => {
   loadingScreen.style.display = "none";
 }, 4000);
+
+// Event listener for when the DOM is fully loaded
 document.addEventListener("DOMContentLoaded", (e) => {
+  // Get references to various HTML elements by their CSS selectors
   const input = document.querySelector(".search__input");
   const btn = document.querySelector(".btn__search");
   const temprature = document.querySelector("#temprature");
@@ -13,8 +22,9 @@ document.addEventListener("DOMContentLoaded", (e) => {
   const feelsLike = document.querySelector("#feels_like");
   const windSpeed = document.querySelector("#wind_speed");
   const humidity = document.querySelector("#humidity");
-
   const air = document.querySelector("#air_quality");
+
+  // Function to fetch weather data for the user's current location
   async function getCurrentLocationWeather() {
     if ("geolocation" in navigator) {
       navigator.geolocation.getCurrentPosition(async (position) => {
@@ -34,10 +44,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
     }
   }
 
-  // ... (existing code)
-
-  // Automatically fetch and display weather data for current location
-  getCurrentLocationWeather();
+  // Function to fetch weather data from OpenWeatherMap API
   async function fetchWeatherData(lon, lat) {
     const apiKey = "c1a167f4f6ebec7337196551d8121377";
     const apiUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${apiKey}`;
@@ -51,16 +58,22 @@ document.addEventListener("DOMContentLoaded", (e) => {
     }
   }
 
+  // Function to convert temperature from Kelvin to Celsius
   function convertKelvinToCelsius(kelvin) {
     return Math.trunc(kelvin - 273.15);
   }
 
+  // Function to convert wind speed from meters per second to miles per hour
   function convertMpsToMph(mps) {
     return Math.trunc(mps * 2.237);
   }
+
+  // Function to convert temperature from Celsius to Fahrenheit
   function celsiusToFahrenheit(celsius) {
     return (celsius * 9) / 5 + 32;
   }
+
+  // Function to update the weather display on the webpage
   function updateWeatherDisplay(data) {
     const celciusTemp = convertKelvinToCelsius(data.main.temp);
     const highTempC = convertKelvinToCelsius(data.main.temp_max);
@@ -74,10 +87,14 @@ document.addEventListener("DOMContentLoaded", (e) => {
     feelsLike.textContent = `${feelsC}°`;
     windSpeed.textContent = `${windMph}mph`;
     humidity.textContent = `${data.main.humidity}%`;
+
+    // Set the weather icon based on data from OpenWeatherMap API
     const weatherIconElement = document.querySelector(".weather-icon");
     const weatherIcon = data.weather[0].icon;
     weatherIconElement.style.backgroundImage = `url('http://openweathermap.org/img/wn/${weatherIcon}.png')`;
   }
+
+  // Function to fetch air quality data from OpenWeatherMap API
   async function airQuality(lon, lat) {
     try {
       const response = await fetch(
@@ -87,25 +104,20 @@ document.addEventListener("DOMContentLoaded", (e) => {
 
       const airQualityIndex = result.list[0].main.aqi;
       if (result && result.list && result.list.length > 0) {
+        // Display air quality information based on the AQI (Air Quality Index)
         if (airQualityIndex === 1) {
           air.textContent = `GOOD: ${airQualityIndex}`;
-          console.log("Air Quality:", airQualityIndex);
         } else if (airQualityIndex === 2) {
           air.textContent = `Moderate: ${airQualityIndex}`;
-          console.log("Air Quality:", airQualityIndex);
         } else if (airQualityIndex === 3) {
           air.textContent = `AQ: Unhealthy for sensitive groups: ${airQualityIndex}`;
           air.style.fontSize = "20px";
-          console.log("Air Quality:", airQualityIndex);
         } else if (airQualityIndex === 4) {
           air.textContent = `Unhealthy: ${airQualityIndex}`;
-          console.log("Air Quality:", airQualityIndex);
         } else if (airQualityIndex === 5) {
           air.textContent = `Very Unhealthy: ${airQualityIndex}`;
-          console.log("Air Quality:", airQualityIndex);
         } else if (airQualityIndex === 6) {
           air.textContent = `Hazardous: ${airQualityIndex}`;
-          console.log("Air Quality:", airQualityIndex);
         }
       } else {
         console.log("Air quality data not available.");
@@ -114,6 +126,8 @@ document.addEventListener("DOMContentLoaded", (e) => {
       console.error("Error fetching air quality data:", error);
     }
   }
+
+  // Function to handle the search button click event
   async function handleSearchButtonClick() {
     const cityName = input.value;
     const geoURL = `https://api.openweathermap.org/geo/1.0/direct?q=${cityName}&limit=1&appid=c1a167f4f6ebec7337196551d8121377`;
@@ -127,7 +141,6 @@ document.addEventListener("DOMContentLoaded", (e) => {
         const foundCityName = foundCity.name;
 
         if (foundCityName.toLowerCase() === cityName.toLowerCase()) {
-          console.log("City found:", foundCity);
           const lon = foundCity.lon;
           const lat = foundCity.lat;
           const weatherData = await fetchWeatherData(lon, lat);
@@ -143,6 +156,8 @@ document.addEventListener("DOMContentLoaded", (e) => {
       console.error("Error fetching data:", error);
     }
   }
+
+  // Event listener for the temperature unit switch button
   const unitSwitch = document.querySelector(".unit__switch");
   let isCelsius = true; // Track current temperature unit (Celsius by default)
 
@@ -151,6 +166,7 @@ document.addEventListener("DOMContentLoaded", (e) => {
     isCelsius = !isCelsius;
     const temperature = parseFloat(temprature.textContent);
 
+    // Toggle between Celsius and Fahrenheit
     if (isCelsius) {
       temprature.textContent = `${convertKelvinToCelsius(temperature)}°C`;
       highTemp.textContent = `H:${convertKelvinToCelsius(
@@ -175,10 +191,17 @@ document.addEventListener("DOMContentLoaded", (e) => {
       )}°F`;
     }
   });
+
+  // Event listener for the search button click
   btn.addEventListener("click", handleSearchButtonClick);
+
+  // Event listener for pressing Enter in the input field
   input.addEventListener("keypress", function (event) {
     if (event.key === "Enter") {
       handleSearchButtonClick();
     }
   });
+
+  // Automatically fetch and display weather data for the user's current location
+  getCurrentLocationWeather();
 });

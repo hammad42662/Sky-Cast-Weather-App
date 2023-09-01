@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <link rel="icon" href="assets/logo.svg" / >
+    <title>Sky Cast</title>
+  </head>
+  <body>
+    <div id="loading-screen">
+      <div class="loader">
+        <img src="assets/logo.svg" alt="" />
+      </div>
+      <p></p>
+    </div>
+    <video autoplay muted loop id="bg__video">
+      <source src="assets/bg_video.mp4" type="video/mp4" />
+      Your browser does not support the video tag.
+    </video>
+    <header class="header">
+      <nav class="primary__nav">
+        <div class="input__div">
+          <input
+            class="search__input"
+            type="search"
+            placeholder="Enter Location"
+          />
+
+          <button class="btn__search">Search</button>
+        </div>
+      </nav>
+    </header>
+    <!-- ---------tiles -------------->
+
+    <div class="weather_div">
+      <div class="weather__grid">
+        <div class="wg">
+          <div class="btn_switch">
+            <button class="unit__switch">°C/°F</button>
+          </div>
+          <div class="wg__1">
+            <p class="today">Today</p>
+            <span class="weather-icon"></span>
+          </div>
+          <div class="wg__day__2">
+            <p id="temprature"></p>
+          </div>
+          <div class="wg__hl__3">
+            <p id="h__temp">H:18</p>
+            <p id="l__temp">L:12</p>
+          </div>
+        </div>
+      </div>
+      <br />
+      <hr class="hr" />
+      <br />
+
+      <div class="tile__grid">
+        <div class="tile__grid__items feels">
+          <div class="tgi_child">
+            <img src="assets/thermometer_icon.svg" alt="feels like" />
+            <p>Feels Like</p>
+          </div>
+          <p class="tgi_last_p" id="feels_like"></p>
+        </div>
+        <div class="tile__grid__items wind">
+          <div class="tgi_child">
+            <img src="assets/wind_icon.svg" alt="Wind Speed" />
+            <p>Wind Speed</p>
+          </div>
+          <p class="tgi_last_p" id="wind_speed"></p>
+        </div>
+        <div class="tile__grid__items air">
+          <div class="tgi_child">
+            <img id="air" src="assets/air_quality_icon.svg" alt="Air Quality" />
+            <p>Air Quality</p>
+          </div>
+          <p class="tgi_last_p" id="air_quality"></p>
+        </div>
+        <div class="tile__grid__items humid">
+          <div class="tgi_child humid_child">
+            <img id="humid" src="assets/humidity_icon.svg" alt="humidity" />
+            <p>Humidity</p>
+          </div>
+          <p class="tgi_last_p" id="humidity"></p>
+        </div>
+      </div>
+      <footer class="footer">
+        <p>© 2023 Hammad Afzal</p>
+      </footer>
+    </div>
+
+    <script src="script.js"></script>
+  </body>
+</html>

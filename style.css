@@ -1,10 +1,6 @@
 @import url("https://fonts.googleapis.com/css2?family=Roboto:ital,wght@1,900&display=swap");
 @import url("https://fonts.googleapis.com/css2?family=Roboto+Slab:wght@900&display=swap");
 :root {
-  --primary-color: rgba(200, 193, 52, 0.2);
-  --font-color: rgb(105, 20, 14);
-  --secondary-color: #052e47;
-
   --heading-font: "Roboto", sans-serif;
   --body-font: "Roboto Slab", serif;
 }
@@ -13,7 +9,7 @@ body {
   margin: 0px;
   padding: 0px;
   color: rgb(204, 204, 204);
-  background-color: #e2dcde;
+  background-color: #000000;
 }
 #loading-screen {
   position: fixed;
@@ -150,14 +146,14 @@ body {
   grid-template-rows: 20% 20% 20% 20%;
   background: radial-gradient(
     circle,
-    rgba(42, 41, 41, 0.9) 0%,
-    rgba(31, 29, 24, 0.9) 100%
+    rgba(188, 175, 175, 0.9) 0%,
+    rgba(54, 53, 50, 0.9) 100%
   );
   color: rgb(255, 255, 255);
   border-radius: 20px;
   height: 15%;
   width: 400px;
-  font-family: var(--body-font);
+  font-family: var(--heading-font);
   transition: 1s ease-in-out;
 }
 .wg:hover {
